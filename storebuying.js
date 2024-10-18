@@ -27,6 +27,12 @@ function ready() {
 if (document.readyState !== 'loading') {
     ready();
 }
+// issue point here.
+function removeButton(event){
+    var buttonHit = event.target;
+    buttonHit.parentElement.parentElement.remove();
+    howMuchIsMyTotal(); 
+}
 
 
 function addToCartClicked(event){
@@ -37,11 +43,19 @@ function addToCartClicked(event){
     var pictuer = shopItem.getElementsByClassName('shop-item-image')[0].src
     console.log(title, price , pictuer)
     addingToCart(title, price , pictuer)
+    howMuchIsMyTotal()
 }
 function addingToCart(title, price , pictuer){
     var cartRow = document.createElement('div')
     cartRow.classList.add('cart-row')
     var itemsInCart = document.getElementsByClassName('cart-items')[0]
+    var cartNameOfItems = itemsInCart.getElementsByClassName('cart-item-title')
+    for (var i = 0; i < cartNameOfItems.length; i++){
+        if (cartNameOfItems[i].innerText == title){
+            alert('item is already in your cart')
+            return
+        }
+    }
     var cartRowItems = `
      <div class="cart-item cart-column">
         <img class="cart-item-image" src="${pictuer}" width="100" height="100">
@@ -54,6 +68,7 @@ function addingToCart(title, price , pictuer){
         </div>`
         cartRow.innerHTML = cartRowItems
     itemsInCart.append(cartRow)
+   cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeButton())
 }
 
 function howMuchIsMyTotal() {
