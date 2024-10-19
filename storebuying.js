@@ -1,16 +1,16 @@
-document.addEventListener('DOMContentLoaded', ready);
+if (document.readyState !== 'loading') {
+    // ready();
+    document.addEventListener('DOMContentLoaded', ready());
+}
+
 
 function ready() {
     var removeButton = document.getElementsByClassName('btn-danger');
 
     for (var i = 0; i < removeButton.length; i++) {
         var button = removeButton[i];
-        button.addEventListener('click', function(event) {
-            var buttonHit = event.target;
-            buttonHit.parentElement.parentElement.remove();
-            howMuchIsMyTotal(); 
-            console.log('Item removed');
-        });
+        button.addEventListener('click', delteButton
+        );
     }
     const quantityInputs = document.getElementsByClassName('cart-quantity-input');
     for (let input of quantityInputs) {
@@ -21,14 +21,26 @@ function ready() {
         var button = addToCartButtons[i]
         button.addEventListener('click', addToCartClicked)
     }
+
+
+    document.getElementsByClassName('btn-purchase')[0].addEventListener('click', comfimedPurchase)
+}
+function comfimedPurchase(){
+    alert('you have sucfuly boght idems')
+    var itemsInCart = document.getElementsByClassName('cart-items')[0]
+    while(itemsInCart.hasChildNodes()){
+        itemsInCart.removeChild(itemsInCart.firstChild)
+    }
+    howMuchIsMyTotal()
+    console.log("im working")
 }
 
 // If you want to run this code on load, you can do this:
-if (document.readyState !== 'loading') {
-    ready();
-}
+// if (document.readyState !== 'loading') {
+//     ready();
+// }
 // issue point here.
-function removeButton(event){
+function delteButton(event){
     var buttonHit = event.target;
     buttonHit.parentElement.parentElement.remove();
     howMuchIsMyTotal(); 
@@ -68,7 +80,10 @@ function addingToCart(title, price , pictuer){
         </div>`
         cartRow.innerHTML = cartRowItems
     itemsInCart.append(cartRow)
-   cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeButton())
+    //
+   cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', delteButton)
+    // cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', ready())
+   cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', quantityChanged)
 }
 
 function howMuchIsMyTotal() {
